@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-md-4 mx-auto text-center">
+        <h3>Submit Feedback</h3>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 mx-auto">
+        <form role="form" [formGroup]="form" (submit)="save()">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" placeholder="Name" formControlName="name" name="name" />
+                <div *ngIf="Name.touched || Name.dirty">
+                    <div *ngIf="Name.errors && Name.errors.required" class="text-danger">Name cannot be empty</div>
+                    <div *ngIf="Name.errors && Name.errors.maxlength" class="text-danger">Maximum 50 characters allowed</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" placeholder="Email" formControlName="email" name="email" />
+                <div *ngIf="Email.touched || Email.dirty">
+                    <div *ngIf="Email.errors && Email.errors.required" class="text-danger">Email cannot be empty</div>
+                    <div *ngIf="Email.errors && Email.errors.email" class="text-danger">Invalid email format</div>
+                    <div *ngIf="Email.errors && Email.errors.maxlength" class="text-danger">Maximum 50 characters allowed</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="feedback">Feedback</label>
+                <textarea class="form-control" placeholder="Feedback" formControlName="feedback"
+                    name="feedback"></textarea>
+                    <div *ngIf="Feedback.touched || Feedback.dirty">
+                        <div *ngIf="Feedback.errors && Feedback.errors.required" class="text-danger">Feedback cannot be empty</div>                        
+                        <div *ngIf="Feedback.errors && Feedback.errors.maxlength" class="text-danger">Maximum 1000 characters allowed</div>
+                    </div>
+                    <span  class="text-secondary">({{Feedback.value.length}}/1000 characters)</span>
+            </div>
+            <div class="form-group">
+                <button type="submit" [disabled]="form.invalid" class="btn btn-success" name="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

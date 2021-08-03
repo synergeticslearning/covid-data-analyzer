@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h2>Covid Data</h2>
+    </div>
+</div>
+<search  [countries]="countries" [dates]="dates" (search)="doSearch($event)" ></search>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped table-bordered table-sm">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Country</th>
+                    <th>Province/State</th>
+                    <th>Confirmed</th>
+                    <th>Recovered</th>
+                    <th>Deaths</th>
+                    <th>Recovery Rate</th>
+                    <th>Death Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of covidData|async">
+                    <td>{{item.date|date:'dd-MM-yyyy'}}</td>
+                    <td>
+                        <a [routerLink]="['/chart', item.countryOrRegion ]" [queryParams]="{province: item.provinceOrState}"> {{item.countryOrRegion }}</a>
+                    </td>
+                    <td>{{item.provinceOrState}}</td>
+                    <td>
+                        {{item.confirmed}}
+                        
+                    </td>
+                    <td>{{item.recovered}}</td>
+                    <td>{{item.deaths}}</td>
+                    <td>
+                        <span class="text-success" *ngIf="item.confirmed && item.confirmed>0">{{ (item.recovered/item.confirmed) | percent:'.0-2'}}</span>                        
+                    </td>
+                    <td>
+                        <span class="text-danger" *ngIf="item.confirmed && item.confirmed>0"> {{ (item.deaths/item.confirmed) | percent:'.0-2' }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-inline">
+            <div class="form-group">
+                <label for="name">Filter By </label>
+            </div>
+            <div class="form-group">
+                <select class="form-control form-control-sm" id="country" (change)="searchData(country.value, sdate.value)" #country>
+                    <option value="">Select country</option>
+                    <option *ngFor="let item of countiesList|async" value="{{item}}">{{item}}</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control form-control-sm" id="sdate" #sdate
+                    (change)="searchData(country.value, sdate.value)">
+                    <option value="">Select date</option>
+                    <option *ngFor="let item of datesList|async" value="{{item|date:'yyyy-MM-dd'}}">
+                        {{item|date:'dd-MMM-yyyy'}}</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
