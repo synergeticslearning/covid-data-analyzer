@@ -20,14 +20,28 @@ jobs:
         node-version: 16.x
     
     - name: Restore dependencies
-      run: npm install
+      run: npm install --only=prod
       
     - name: Publish Angular App
       run: npm run build      
 
     - uses: actions/upload-artifact@v2.2.4
       with:
-        name: covid-data-analyzer
+        name: covid-data-analyzer-artifact
         path: ./dist/covid-data-analyzer
 
+  deploy:
+    needs: build
+    runs-on: windows-latest
+
+    steps:
+    - name: Download published artifact
+      uses: actions/download-artifact@v2.0.10
+
+    - name: Deploying to Azure App Service
+      uses: azure/webapps-deploy@v2      
+      with:
+        app-name: covid-data-analyzer
+        publish-profile: ${{ secrets.PUBLISH_PROFILE }}
+        package: covid-data-analyzer-artifact
     
