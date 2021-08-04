@@ -1,5 +1,5 @@
 
-name: Dotnet API to Azure Deployment
+name: Angular App to Azure Deployment
 
 on:
   push:
@@ -9,42 +9,25 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
     
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
+    - name: Setup Angular
+      uses: actions/setup-node@v1.4.5
       with:
-        dotnet-version: 3.1.x
+        node-version: 14.x
     
     - name: Restore dependencies
-      run: dotnet restore ./CovidDataApi
-
-    - name: Build
-      run: dotnet build --no-restore ./CovidDataApi
-
-    - name: Publish
-      run: dotnet publish ./CovidDataApi -o dist/
+      run: npm install
+      
+    - name: Publish Angular App
+      run: npm run build      
 
     - uses: actions/upload-artifact@v2.2.4
       with:
-        path: ./dist
+        name: covid-data-analyzer
+        path: ./dist/covid-data-analyzer
 
-  deploy:
-    needs: build
-    runs-on: windows-latest
-
-    steps:
-    - name: Download published artifact
-      uses: actions/download-artifact@v2.0.10
-
-    - name: Deploying to Azure App Service
-      uses: azure/webapps-deploy@v2      
-      with:
-        app-name: coviddata-api
-        publish-profile: ${{ secrets.PUBLISH_PROFILE }}
-        package: artifact
-  
     
